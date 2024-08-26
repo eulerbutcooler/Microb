@@ -4,7 +4,6 @@ main = "src/index.ts"
 
 # [vars]
 
-
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
