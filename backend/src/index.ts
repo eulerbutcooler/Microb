@@ -6,6 +6,7 @@ import { blogrouter } from "./routes/blog-routes";
 const app = new Hono().basePath("/api/v1");
 app.use(cors());
 
+app.get('/', (c) => c.text('Hello from the root!'));
 app.route("/user", userrouter);
 app.route("/blog", blogrouter);
 

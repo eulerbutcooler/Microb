@@ -1,9 +1,9 @@
 import { Context } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { signupSchema, signinSchema } from "../zod/zodschema";
 import { hashPassword, verifyPassword } from "../middleware/hashing";
 import { sign } from "hono/jwt";
+import { signupSchema, signinSchema } from "@eulerbutcooler/proj-common";
 
 export async function signup(c: Context) {
   const prisma = new PrismaClient({
@@ -37,7 +37,6 @@ export async function signup(c: Context) {
         username: validated.data.username,
       },
     });
-    console.log('adding data done')
     const jwt = await sign(
       {
         id: user.id,

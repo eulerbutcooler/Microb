@@ -1,6 +1,7 @@
 import { Context } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
+import { createblogSchema, updateblogSchema } from "@eulerbutcooler/proj-common";
 
 export async function createblog(c: Context) {
   const prisma = new PrismaClient({
@@ -9,11 +10,19 @@ export async function createblog(c: Context) {
   try {
     const userid = await c.get("userid");
     const body = await c.req.json();
+    const {success} = createblogSchema.safeParse(body)
+    if(!success){
+      c.status(411)
+      return c.json({
+        message: "incorrect input"
+      })
+    }
     const blogg = await prisma.blog.create({
       data: {
         title: body.title,
         content: body.content,
         authorId: Number(userid),
+        published: true
       },
     });
     return c.json({
@@ -27,16 +36,24 @@ export async function createblog(c: Context) {
 }
 
 export async function getallblogs(c: Context) {
-  console.log("inside the func");
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
 
   try {
-    console.log("trying prisma command");
-    const allblogs = await prisma.blog.findMany();
-    console.log("prisma command done");
-    return c.json(allblogs);
+    const allblogs = await prisma.blog.findMany({
+      where: {
+        published: true
+      },
+      include: {
+        author: {
+          select: {
+            username: true
+          }
+        }
+      }
+    });
+    return c.json({allblogs});
   } catch (e) {
     c.status(400);
     return c.json({
@@ -54,7 +71,14 @@ export async function getblog(c: Context) {
     const blog = await prisma.blog.findUnique({
       where: {
         id,
-      },
+        published: true
+      }, include: {
+        author: {
+          select: {
+            username:true
+          }
+        }
+      }
     });
     return c.json(blog);
   } catch (e) {
@@ -74,15 +98,21 @@ export async function updateblog(c: Context) {
 
   try {
     const body = await c.req.json();
+    const {success} = updateblogSchema.safeParse(body)
+    if(!success){
+      c.status(411)
+      return c.json({
+        message: "incorrect input"
+      })
+    }
     const blogexists = await prisma.blog.findFirst({
       where: {
         id: body.id,
         authorId: Number(userid),
       },
     });
-    console.log("exists or not");
     if (blogexists) {
-      const updatedblog = await prisma.blog.update({
+      await prisma.blog.update({
         where: {
           id: body.id,
           authorId: Number(userid),
@@ -90,6 +120,7 @@ export async function updateblog(c: Context) {
         data: {
           title: body.title,
           content: body.content,
+          published: true
         },
       });
       return c.text("updated the blog");

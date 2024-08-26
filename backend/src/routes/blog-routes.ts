@@ -12,6 +12,6 @@ export const blogrouter = new Hono();
 
 blogrouter.post("/", authfunc, createblog);
 blogrouter.put("/", authfunc, updateblog);
-blogrouter.get("/:id", getblog);
+blogrouter.get("/id/:id", getblog);
 blogrouter.get("/all", getallblogs);
 blogrouter.delete("/:id", authfunc, deleteblog);

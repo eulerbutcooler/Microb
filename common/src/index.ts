@@ -1,4 +1,4 @@
-import { object, string } from "zod";
+import { object, string, z } from "zod";
 
 export const signupSchema = object({
   email: string().email(),
@@ -28,3 +28,19 @@ export const signinSchema = object({
     })
     .refine((password) => /[0-9]/.test(password)),
 });
+
+export const createblogSchema = object({
+  title: z.string(),
+  content: z.string(),
+});
+
+export const updateblogSchema = object({
+  title: z.string(),
+  content: z.string(),
+  id: z.string(),
+});
+
+export type signupSchema = z.infer<typeof signupSchema>;
+export type signinSchema = z.infer<typeof signinSchema>;
+export type createblogSchema = z.infer<typeof createblogSchema>;
+export type updateblogSchema = z.infer<typeof updateblogSchema>;

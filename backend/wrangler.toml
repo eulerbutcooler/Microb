@@ -1,10 +1,9 @@
 name = "backend"
-compatibility_date = "2024-7-23"
+compatibility_date = "2024-07-23"
+main = "src/index.ts"
 
-[vars]
-DIRECT_URL="postgres://avnadmin:AVNS_0kXoXJU82MX7LYU2f7B@blog-backend-medium-blog-backend.d.aivencloud.com:25587/defaultdb?sslmode=require"
-DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiYzIxMTc4MmItMzc2Ni00NzUzLTlkNTItYzJjODZiNjgzNWQ5IiwidGVuYW50X2lkIjoiOWM5NzhlN2IxZTQ2YzI3ZDY2ODBhODEwMGQxMTAwOGRlMTA3OTk0ODZmYTdhMDEzZGY4MGY3YmY4ZTU1MDlkMyIsImludGVybmFsX3NlY3JldCI6Ijc4ZjUxMjNhLTAwZmEtNGVkMy05OWI2LTcxMWU1Nzg1MGRiNCJ9.BjdmO9b8DeoLnT6iSQIF8NwoIMVyOpmR4ElkvMk_8Aw"
-SECRET_KEY = "Mastikhor hu yar mein toh"
+# [vars]
+
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
